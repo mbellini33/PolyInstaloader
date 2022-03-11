@@ -1,2 +1,4 @@
-
-setup.sh
+venv
+*.pyc
+.DS_Store
+.env
