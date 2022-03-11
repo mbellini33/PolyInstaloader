@@ -48,7 +48,7 @@ fig.update_layout(clickmode='event+select')
 
 
 
-app = Dash()
+app = Dash(__name__)
 app.layout = html.Div([
     dcc.Graph(
               id='basic-interactions',
