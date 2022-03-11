@@ -58,6 +58,7 @@ app.layout = html.Div([
             html.Pre(id='click-data'),
         ], className='three columns'),
 
+
 html.Div([
             dcc.Markdown("""
                 **Selection Data**
@@ -81,7 +82,8 @@ html.Div([
     Input('basic-interactions', 'clickData'))
 
 def display_click_data(clickData):
-    return 'PORCO DIO OVINO'
+
+    return json.dumps(clickData, indent=2)
 
 
 if __name__ == '__main__':
