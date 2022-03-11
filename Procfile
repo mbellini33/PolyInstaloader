@@ -1,1 +1,1 @@
-web: gunicorn app:server
+web: gunicorn streamlit_app_test:server
