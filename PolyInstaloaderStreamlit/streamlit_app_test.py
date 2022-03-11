@@ -15,7 +15,6 @@ import dash_bootstrap_components as dbc
 #Sistemiamo il dataset
 r = requests.get("https://api.mapbox.com/datasets/v1/federicogodino/cl0f4sd5j08r022pnj5t7fx3d/features?access_token=sk.eyJ1IjoiZmVkZXJpY29nb2Rpbm8iLCJhIjoiY2t6eW02azFvMDFvMDNjcXBkdWppdW9tbiJ9.u715QLdqAeEZzDCpfl2AYg")
 
-
 data = r.text
 
 data = json.loads(data)
@@ -85,26 +84,9 @@ html.Div([
 @app.callback(
     Output("click-data", "children"),
     Input('basic-interactions', 'clickData'))
+
 def display_click_data(clickData):
-    # INSTAGRAPI
-    from instagrapi import Client
-    import os
-    user = 'instafinderbot'
-    passwd = 'instaloader'
-
-    cl = Client()
-    cl.login(user, passwd)
-
-    location = '570664753'
-
-    #Filtrare per category sul comune id
-
-
-
-
-
-
-    return json.dumps(clickData,indent=2)
+    return 'PORCO DIO OVINO'
 
 app.run_server(debug=True, use_reloader=False)
 
