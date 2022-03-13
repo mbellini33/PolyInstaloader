@@ -6,9 +6,8 @@ import pandas as pd
 import plotly.express as px
 import warnings
 import re
-import dash_bootstrap_components as dbc
+
 from instagrapi import Client
-import instagrapi
 warnings.filterwarnings('ignore')
 from plotly.subplots import make_subplots
 
