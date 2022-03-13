@@ -2,3 +2,4 @@ venv
 *.pyc
 .DS_Store
 .env
+~$post_categorizzati.xlsx
