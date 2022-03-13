@@ -7,3 +7,4 @@ openpyxl==3.0.9
 #dash_bootstrap_components==1.0.3
 numpy==1.22.2
 instagrapi==1.16.14
+Pillow==9.0.1
