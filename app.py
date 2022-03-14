@@ -171,23 +171,24 @@ def display_select_data(selectedData):
         value = value[2]
 
         if name == 'SOS Fornace':
-            img = np.array(Image.open('static/casc01.jpg'))
-        elif value == 'Ghisi Skatepark':
-            img = np.array(Image.open('download.jpg'))
-        elif value == 'PLIS Basso Olona':
-            img = np.array(Image.open('download.jpg'))
-        elif value == 'Sala Filatoio, Villa Burba':
-            img = np.array(Image.open('download.jpg'))
-        elif value == 'Comune di Rho':
-            img = np.array(Image.open('download.jpg'))
-        elif value == 'CentRho':
-            img = np.array(Image.open('download.jpg'))
-        elif value == "Agenzia dell'abitare rhodense":
-            img = np.array(Image.open('download.jpg'))
-        elif value == "Arexpo":
-            img = np.array(Image.open('download.jpg'))
-        elif value == "Terreno Expo":
-            img = np.array(Image.open('download.jpg'))
+            img = np.array(Image.open('static/ZFP4939.jpg'))
+
+        elif name == 'Ghisi Skatepark':
+            img = np.array(Image.open('static/Ghisi.jpg'))
+        elif name == 'PLIS Basso Olona':
+            img = np.array(Image.open('static/PLIS.jpg'))
+        elif name == 'Sala Filatoio, Villa Burba':
+            img = np.array(Image.open('static/sala_filatoio.jpg'))
+        elif name == 'Comune di Rho ':
+            img = np.array(Image.open('static/centr01.jpg'))
+        elif name == 'CentRho':
+            img = np.array(Image.open('static/map_inter01.jpg'))
+        elif name == "Agenzia dell'abitare rhodense":
+            img = np.array(Image.open('static/ABIT01.jpg'))
+        elif name == "Arexpo":
+            img = np.array(Image.open('static/EXP01.png'))
+        elif name == "Terreno Expo":
+            img = np.array(Image.open('static/ud2.jpg'))
         else:
             pass
 
