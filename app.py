@@ -81,7 +81,7 @@ app.layout = html.Div([
                                 }),
 
             html.Div(id="click-data",style={'display': 'inline-block',
-                                            'width':'20%',
+                                            'width':'40%',
                                             'text-align':'center',
                                             }),
 
@@ -137,8 +137,33 @@ def display_click_data(clickData):
             #print('ok')
 
         #except:#TODO codifichi l'errore
-        img = np.array(Image.open('download.jpg'))
-        img1 = np.array(Image.open('download_1.jpg'))
+        # Create figure
+        if value == 'cultura':
+            #ok
+            img = np.array(Image.open('static/cultura_1.jpg'))
+            img1 = np.array([])
+        if value == 'natura':
+            #ok
+            img = np.array(Image.open('static/natura_1.jpg'))
+            img1 = np.array([])
+        if value == 'housing':
+            #ok
+            img = np.array(Image.open('static/housing_1.jpg'))
+            img1 = np.array(Image.open('static/housing_2.jpg'))
+        if value == 'spazio_pubblico':
+            #ok
+            img = np.array(Image.open('static/spazio_pubblico_1.webp'))
+            img1 = np.array(Image.open('static/spazio_pubblico_2.jpg'))
+        if value == 'heritage':
+
+            img = np.array(Image.open('static/heritage_1.jpg'))
+            img1 = np.array([])
+        if value == 'innovazione':
+            img = np.array(Image.open('static/innovazione_1.webp'))
+            img1 = np.array(Image.open('static/innovazione_2.jpg'))
+
+
+
         fig = make_subplots(
             rows=2, cols=1)
 
@@ -146,12 +171,23 @@ def display_click_data(clickData):
 
         )
 
-        fig.add_trace(go.Image(z=img), 1, 1)
-        fig.add_trace(go.Image(z=img1), 2, 1)
+        if len(img1) > 0:
+
+            fig.add_trace(go.Image(z=img), 1, 1)
+            fig.add_trace(go.Image(z=img1), 2, 1)
+
+        else:
+            fig.add_trace(go.Image(z=img), 1, 1)
+
+
         fig.update_layout(coloraxis_showscale=False,
                           title_text=value)
         fig.update_xaxes(showticklabels=False)
         fig.update_yaxes(showticklabels=False)
+
+
+
+        
 
         return dcc.Graph(figure=fig)
 
