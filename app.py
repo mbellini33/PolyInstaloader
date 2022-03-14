@@ -16,6 +16,10 @@ import numpy as np
 import plotly.graph_objects as go
 
 
+list_datasets=['cl0f4sd5j08r022pnj5t7fx3d','cl0mygcb505jv22s95tj8jab1','cl0med4ux01h521p8liyzzlqf',
+               'ckzokywth2wzo2dte61czaktb','cl0f5p20u0m2e20qum84o85l8','cl0p7q5nk13c621r03a8kdmu7',
+               'cl0p83jhb030r28st8jaklulv']
+
 
 #DATA
 r_heri = requests.get("https://api.mapbox.com/datasets/v1/federicogodino/cl0f4sd5j08r022pnj5t7fx3d/features?access_token=sk.eyJ1IjoiZmVkZXJpY29nb2Rpbm8iLCJhIjoiY2t6eW02azFvMDFvMDNjcXBkdWppdW9tbiJ9.u715QLdqAeEZzDCpfl2AYg")
@@ -73,11 +77,11 @@ app.layout = html.Div([
             dcc.Graph(
                         id='basic-interactions',
                         figure=fig,style={'display': 'inline-block',
-                                'width':'45%',
+                                'width':'55%',
                                 }),
 
             html.Div(id="click-data",style={'display': 'inline-block',
-                                            'width':'30%',
+                                            'width':'20%',
                                             'text-align':'center',
                                             }),
 
@@ -112,17 +116,17 @@ def display_click_data(clickData):
         value = value['customdata']
         value = value[2]
         # Seleziono nel dataframe
-        df_tel = pd.read_excel('post_categorizzati.xlsx', engine='openpyxl')
-        df_tel.sort_values(by='data', inplace=True)
-        df_tel['categoria_2_out'].fillna('', inplace=True)
+        #df_tel = pd.read_excel('post_categorizzati.xlsx', engine='openpyxl')
+        #df_tel.sort_values(by='data', inplace=True)
+        #df_tel['categoria_2_out'].fillna('', inplace=True)
 
-        df_tel_1 = df_tel[df_tel['categoria_1_out'] == value]
-        df_tel_2 = df_tel[df_tel['categoria_2_out'] == value]
+        #df_tel_1 = df_tel[df_tel['categoria_1_out'] == value]
+        #df_tel_2 = df_tel[df_tel['categoria_2_out'] == value]
 
-        df_out = pd.concat([df_tel_1,df_tel_2])
-        df_out.sort_values(by='data',inplace=True)
-        df_out = df_out.head(3)
-        result = df_out.to_json(orient="records")
+        #df_out = pd.concat([df_tel_1,df_tel_2])
+        #df_out.sort_values(by='data',inplace=True)
+        #df_out = df_out.head(3)
+        #result = df_out.to_json(orient="records")
 
         #try:
             #cl = Client()
@@ -137,6 +141,11 @@ def display_click_data(clickData):
         img1 = np.array(Image.open('download_1.jpg'))
         fig = make_subplots(
             rows=2, cols=1)
+
+        fig.add_layout_image(
+
+        )
+
         fig.add_trace(go.Image(z=img), 1, 1)
         fig.add_trace(go.Image(z=img1), 2, 1)
         fig.update_layout(coloraxis_showscale=False,
@@ -160,7 +169,28 @@ def display_select_data(selectedData):
         value = value['customdata']
 
         value = value[2]
-        img = np.array(Image.open('download.jpg'))
+
+        if name == 'SOS Fornace':
+            img = np.array(Image.open('static/casc01.jpg'))
+        elif value == 'Ghisi Skatepark':
+            img = np.array(Image.open('download.jpg'))
+        elif value == 'PLIS Basso Olona':
+            img = np.array(Image.open('download.jpg'))
+        elif value == 'Sala Filatoio, Villa Burba':
+            img = np.array(Image.open('download.jpg'))
+        elif value == 'Comune di Rho':
+            img = np.array(Image.open('download.jpg'))
+        elif value == 'CentRho':
+            img = np.array(Image.open('download.jpg'))
+        elif value == "Agenzia dell'abitare rhodense":
+            img = np.array(Image.open('download.jpg'))
+        elif value == "Arexpo":
+            img = np.array(Image.open('download.jpg'))
+        elif value == "Terreno Expo":
+            img = np.array(Image.open('download.jpg'))
+        else:
+            pass
+
         fig = make_subplots(
             rows=1, cols=1)
         fig.add_trace(go.Image(z=img), 1, 1)
