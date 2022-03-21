@@ -103,7 +103,8 @@ html.Div([
                                             'float':'right',
                                             })
                                         ],
-            style={"margin":"40px","text-align":"center"})
+            style={"margin":"60px",
+                   "text-align":"center"})
 ])
 
 
@@ -239,7 +240,7 @@ def display_select_data(selectedData):
         fig.add_trace(go.Image(z=img))
 
         fig.update_layout(coloraxis_showscale=False,
-                          title_text=name,title_font_size=25,title_font_family="Arial")
+                          title_text=name.upper(),title_pad_r=3,title_font_size=25,title_font_family="Arial")
         fig.update_xaxes(showticklabels=False)
         fig.update_yaxes(showticklabels=False)
 
