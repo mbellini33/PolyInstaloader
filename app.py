@@ -1,5 +1,6 @@
 from dash import Dash, dcc, html, Input, Output,dash_table
 from data_processing import data_process
+from instagrapi import Client
 import requests
 import json
 import pandas as pd
@@ -7,7 +8,7 @@ import plotly.express as px
 import warnings
 import re
 
-from instagrapi import Client
+
 warnings.filterwarnings('ignore')
 from plotly.subplots import make_subplots
 
@@ -89,16 +90,20 @@ app.layout = html.Div([
 html.Div([
 
             html.Div(id="text-data",style={'display': 'inline-block',
-                                            'width':'45%',
-                                            'text-align':'center',
-                                            }),
+                                            'width':'35%',
+                                            'text_allign':'center',
+                                            'margin-top':'120px',
+                                            'font-family':'Open Sans',
+                                            'font-size':13,
+                                             'color':'black'}),
 
 
             html.Div(id="selected-data",style={'display': 'inline-block',
-                                            'width':'20%',
-                                            'text-align':'center',
+                                            'width':'65%',
+                                            'float':'right',
                                             })
-                                        ])
+                                        ],
+            style={"margin":"40px","text-align":"center"})
 ])
 
 
@@ -140,7 +145,10 @@ def display_click_data(clickData):
         # Create figure
         if value == 'cultura':
             #ok
-            img = np.array(Image.open('static/cultura_1.jpg'))
+            #size = 128,128
+            img = np.array(Image.open('static/cultura_1.jpg').resize((1280,1280), Image.ANTIALIAS))
+
+
             img1 = np.array([])
         if value == 'natura':
             #ok
@@ -181,13 +189,11 @@ def display_click_data(clickData):
 
 
         fig.update_layout(coloraxis_showscale=False,
-                          title_text=value)
+                          title_text=value,title_x=0.5,
+                          #title_font_size = 1.1
+                          )
         fig.update_xaxes(showticklabels=False)
         fig.update_yaxes(showticklabels=False)
-
-
-
-        
 
         return dcc.Graph(figure=fig)
 
@@ -203,6 +209,7 @@ def display_select_data(selectedData):
         value = selectedData['points'][0]
         name = value['hovertext']
         value = value['customdata']
+        text = value[6]
 
         value = value[2]
 
@@ -228,14 +235,14 @@ def display_select_data(selectedData):
         else:
             pass
 
-        fig = make_subplots(
-            rows=1, cols=1)
-        fig.add_trace(go.Image(z=img), 1, 1)
+        fig = go.Figure()
+        fig.add_trace(go.Image(z=img))
 
         fig.update_layout(coloraxis_showscale=False,
-                          title_text=name)
+                          title_text=name,title_font_size=25,title_font_family="Arial")
         fig.update_xaxes(showticklabels=False)
         fig.update_yaxes(showticklabels=False)
+
 
         return dcc.Graph(figure=fig)
 
@@ -243,6 +250,7 @@ def display_select_data(selectedData):
     Output("text-data", "children"),
     Input('basic-interactions', 'selectedData'))
 def display_text_data(selectedData):
+
     if selectedData is None:
         return ""
     else:
@@ -251,6 +259,7 @@ def display_text_data(selectedData):
         value = value['customdata']
         value = value[6]
         return value
+
 
 
 
