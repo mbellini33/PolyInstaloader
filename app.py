@@ -34,6 +34,7 @@ r_natur = requests.get("https://api.mapbox.com/datasets/v1/federicogodino/cl0p83
 
 #############################
 #Set instagrapi new images
+"""
 cl = Client()
 user = 'instafinderbot'
 passwd = 'instaloader'
@@ -68,7 +69,7 @@ for i in medias:
         cl.photo_download(i['id'], 'static/instagrapi')
 
 ################################
-
+"""
 
 
 
