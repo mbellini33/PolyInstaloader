@@ -8,7 +8,6 @@ import plotly.express as px
 import warnings
 import re
 import os
-import glob
 
 warnings.filterwarnings('ignore')
 from plotly.subplots import make_subplots
