@@ -3,3 +3,4 @@ venv
 .DS_Store
 .env
 ~$post_categorizzati.xlsx
+static/test.jpg
