@@ -34,18 +34,19 @@ r_natur = requests.get("https://api.mapbox.com/datasets/v1/federicogodino/cl0p83
 
 #############################
 #Set instagrapi new images
-"""
+
 cl = Client()
 user = 'instafinderbot'
 passwd = 'instaloader'
 
 cl.login(user, passwd)
 
+
 user_id = cl.user_id_from_username("frames_of_urban_transformation")
 #La query prende gli ultimi 2 risultati
 medias = cl.user_medias_v1(user_id, 2)
 
-
+"""
 types = ('*.jpeg', '*.jpg')
 path = 'static/instagrapi'
 list_of_files = tuple([f for f in os.listdir(path) if f.endswith('.jpg')])
