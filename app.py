@@ -6,7 +6,7 @@ import json
 import pandas as pd
 import plotly.express as px
 import warnings
-import re
+#import re
 import os
 
 warnings.filterwarnings('ignore')
@@ -21,7 +21,7 @@ list_datasets=['cl0f4sd5j08r022pnj5t7fx3d','cl0mygcb505jv22s95tj8jab1','cl0med4u
                'ckzokywth2wzo2dte61czaktb','cl0f5p20u0m2e20qum84o85l8','cl0p7q5nk13c621r03a8kdmu7',
                'cl0p83jhb030r28st8jaklulv']
 
-global list_of_files
+
 #DATA
 r_heri = requests.get("https://api.mapbox.com/datasets/v1/federicogodino/cl0f4sd5j08r022pnj5t7fx3d/features?access_token=sk.eyJ1IjoiZmVkZXJpY29nb2Rpbm8iLCJhIjoiY2t6eW02azFvMDFvMDNjcXBkdWppdW9tbiJ9.u715QLdqAeEZzDCpfl2AYg")
 r_cult = requests.get("https://api.mapbox.com/datasets/v1/federicogodino/cl0mygcb505jv22s95tj8jab1/features?access_token=sk.eyJ1IjoiZmVkZXJpY29nb2Rpbm8iLCJhIjoiY2t6eW02azFvMDFvMDNjcXBkdWppdW9tbiJ9.u715QLdqAeEZzDCpfl2AYg")
@@ -47,7 +47,6 @@ medias = cl.user_medias_v1(user_id, 2)
 
 types = ('*.jpeg', '*.jpg')
 path = 'static/instagrapi'
-#list_of_files=[tuple(glob.glob(i)) for i in types if len(glob.glob(i)) > 0]
 list_of_files = tuple([f for f in os.listdir(path) if f.endswith('.jpg')])
 list_of_files2 = tuple([f for f in os.listdir(path) if f.endswith('.jpeg')])
 list_of_files = list_of_files + list_of_files2
@@ -89,8 +88,8 @@ input_data = data_process(r_natur,input_data)
 
 input_data['size'] = 5
 input_data['categoria'] = input_data['categoria'].apply(lambda x: x.lower())
-input_data['categoria'] = input_data['categoria'].apply(lambda x: re.sub('culture','cultura',x))
-input_data['categoria'] = input_data['categoria'].apply(lambda x: re.sub('spazio pubblico','spazio_pubblico',x))
+#input_data['categoria'] = input_data['categoria'].apply(lambda x: re.sub('culture','cultura',x))
+#input_data['categoria'] = input_data['categoria'].apply(lambda x: re.sub('spazio pubblico','spazio_pubblico',x))
 
 
 
@@ -166,34 +165,12 @@ def display_click_data(clickData):
         value = value['customdata']
         value = value[2]
 
-        types = ('*.jpeg', '*.jpg')
         path = 'static/instagrapi'
-        # list_of_files=[tuple(glob.glob(i)) for i in types if len(glob.glob(i)) > 0]
         list_of_files = tuple([f for f in os.listdir(path) if f.endswith('.jpg')])
         list_of_files2 = tuple([f for f in os.listdir(path) if f.endswith('.jpeg')])
         list_of_files = list_of_files + list_of_files2
-        # Seleziono nel dataframe
-        #df_tel = pd.read_excel('post_categorizzati.xlsx', engine='openpyxl')
-        #df_tel.sort_values(by='data', inplace=True)
-        #df_tel['categoria_2_out'].fillna('', inplace=True)
 
-        #df_tel_1 = df_tel[df_tel['categoria_1_out'] == value]
-        #df_tel_2 = df_tel[df_tel['categoria_2_out'] == value]
 
-        #df_out = pd.concat([df_tel_1,df_tel_2])
-        #df_out.sort_values(by='data',inplace=True)
-        #df_out = df_out.head(3)
-        #result = df_out.to_json(orient="records")
-
-        #try:
-            #cl = Client()
-            #user = 'mikesugarb'
-            #passwd = 'baby-lon'
-            #cl.login(user, passwd)
-            #value = cl.photo_download(2790325208562442752)
-            #print('ok')
-
-        #except:#TODO codifichi l'errore
         # Create figure
         if value == 'cultura':
             #ok
@@ -221,7 +198,6 @@ def display_click_data(clickData):
         if value == 'innovazione':
             img = np.array(Image.open('static/innovazione_1.webp'))
             img1 = np.array(Image.open('static/innovazione_2.jpg'))
-
 
 
         fig = make_subplots(
