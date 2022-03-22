@@ -1,4 +1,4 @@
-from dash import Dash, dcc, html, Input, Output,dash_table
+from dash import Dash, dcc, html, Input, Output
 from data_processing import data_process
 from instagrapi import Client
 import requests
@@ -7,7 +7,8 @@ import pandas as pd
 import plotly.express as px
 import warnings
 import re
-
+import os
+import glob
 
 warnings.filterwarnings('ignore')
 from plotly.subplots import make_subplots
@@ -21,7 +22,7 @@ list_datasets=['cl0f4sd5j08r022pnj5t7fx3d','cl0mygcb505jv22s95tj8jab1','cl0med4u
                'ckzokywth2wzo2dte61czaktb','cl0f5p20u0m2e20qum84o85l8','cl0p7q5nk13c621r03a8kdmu7',
                'cl0p83jhb030r28st8jaklulv']
 
-
+global list_of_files
 #DATA
 r_heri = requests.get("https://api.mapbox.com/datasets/v1/federicogodino/cl0f4sd5j08r022pnj5t7fx3d/features?access_token=sk.eyJ1IjoiZmVkZXJpY29nb2Rpbm8iLCJhIjoiY2t6eW02azFvMDFvMDNjcXBkdWppdW9tbiJ9.u715QLdqAeEZzDCpfl2AYg")
 r_cult = requests.get("https://api.mapbox.com/datasets/v1/federicogodino/cl0mygcb505jv22s95tj8jab1/features?access_token=sk.eyJ1IjoiZmVkZXJpY29nb2Rpbm8iLCJhIjoiY2t6eW02azFvMDFvMDNjcXBkdWppdW9tbiJ9.u715QLdqAeEZzDCpfl2AYg")
@@ -30,6 +31,50 @@ r_h2o = requests.get("https://api.mapbox.com/datasets/v1/federicogodino/ckzokywt
 r_hous = requests.get("https://api.mapbox.com/datasets/v1/federicogodino/cl0f5p20u0m2e20qum84o85l8/features?access_token=sk.eyJ1IjoiZmVkZXJpY29nb2Rpbm8iLCJhIjoiY2t6eW02azFvMDFvMDNjcXBkdWppdW9tbiJ9.u715QLdqAeEZzDCpfl2AYg")
 r_space = requests.get("https://api.mapbox.com/datasets/v1/federicogodino/cl0p7q5nk13c621r03a8kdmu7/features?access_token=sk.eyJ1IjoiZmVkZXJpY29nb2Rpbm8iLCJhIjoiY2t6eW02azFvMDFvMDNjcXBkdWppdW9tbiJ9.u715QLdqAeEZzDCpfl2AYg")
 r_natur = requests.get("https://api.mapbox.com/datasets/v1/federicogodino/cl0p83jhb030r28st8jaklulv/features?access_token=sk.eyJ1IjoiZmVkZXJpY29nb2Rpbm8iLCJhIjoiY2t6eW02azFvMDFvMDNjcXBkdWppdW9tbiJ9.u715QLdqAeEZzDCpfl2AYg")
+
+
+#############################
+#Set instagrapi new images
+cl = Client()
+user = 'instafinderbot'
+passwd = 'instaloader'
+
+cl.login(user, passwd)
+
+user_id = cl.user_id_from_username("frames_of_urban_transformation")
+#La query prende gli ultimi 2 risultati
+medias = cl.user_medias_v1(user_id, 2)
+
+
+types = ('*.jpeg', '*.jpg')
+path = 'static/instagrapi'
+#list_of_files=[tuple(glob.glob(i)) for i in types if len(glob.glob(i)) > 0]
+list_of_files = tuple([f for f in os.listdir(path) if f.endswith('.jpg')])
+list_of_files2 = tuple([f for f in os.listdir(path) if f.endswith('.jpeg')])
+list_of_files = list_of_files + list_of_files2
+
+#list_of_files = set([element for tupl in list_of_files for element in tupl])
+
+
+for i in medias:
+    i = dict(i)
+    if len(list_of_files) > 0:
+        #for j in list_of_files:
+        if any(i['pk'] in s for s in list_of_files):
+            pass
+        else:
+            print('sto scaricando')
+            cl.photo_download(i['pk'],'static/instagrapi')
+    else:
+        print('sto scaricando')
+        cl.photo_download(i['id'], 'static/instagrapi')
+
+################################
+
+
+
+
+
 
 input_data = pd.DataFrame(columns=['lat','lon','name','categoria','link','ambito','size'])
 
@@ -121,6 +166,13 @@ def display_click_data(clickData):
         value = clickData['points'][0]
         value = value['customdata']
         value = value[2]
+
+        types = ('*.jpeg', '*.jpg')
+        path = 'static/instagrapi'
+        # list_of_files=[tuple(glob.glob(i)) for i in types if len(glob.glob(i)) > 0]
+        list_of_files = tuple([f for f in os.listdir(path) if f.endswith('.jpg')])
+        list_of_files2 = tuple([f for f in os.listdir(path) if f.endswith('.jpeg')])
+        list_of_files = list_of_files + list_of_files2
         # Seleziono nel dataframe
         #df_tel = pd.read_excel('post_categorizzati.xlsx', engine='openpyxl')
         #df_tel.sort_values(by='data', inplace=True)
@@ -174,19 +226,28 @@ def display_click_data(clickData):
 
 
         fig = make_subplots(
-            rows=2, cols=1)
+            rows=2, cols=2)
 
         fig.add_layout_image(
 
         )
 
-        if len(img1) > 0:
 
+        if len(img1) > 0:
             fig.add_trace(go.Image(z=img), 1, 1)
             fig.add_trace(go.Image(z=img1), 2, 1)
 
         else:
             fig.add_trace(go.Image(z=img), 1, 1)
+
+        #list_of_files
+
+        img_test = np.array(Image.open('static/instagrapi/{}'.format(list_of_files[0])))
+        img_test1 = np.array(Image.open('static/instagrapi/{}'.format(list_of_files[1])))
+
+        fig.add_trace(go.Image(z=img_test), 1, 2)
+        fig.add_trace(go.Image(z=img_test1), 2, 2)
+
 
 
         fig.update_layout(coloraxis_showscale=False,
