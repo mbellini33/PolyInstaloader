@@ -6,7 +6,7 @@ import json
 import pandas as pd
 import plotly.express as px
 import warnings
-#import re
+import re
 import os
 
 warnings.filterwarnings('ignore')
@@ -85,8 +85,8 @@ input_data = data_process(r_natur,input_data)
 
 input_data['size'] = 5
 input_data['categoria'] = input_data['categoria'].apply(lambda x: x.lower())
-#input_data['categoria'] = input_data['categoria'].apply(lambda x: re.sub('culture','cultura',x))
-#input_data['categoria'] = input_data['categoria'].apply(lambda x: re.sub('spazio pubblico','spazio_pubblico',x))
+input_data['categoria'] = input_data['categoria'].apply(lambda x: re.sub('culture','cultura',x))
+input_data['categoria'] = input_data['categoria'].apply(lambda x: re.sub('spazio pubblico','spazio_pubblico',x))
 
 
 
@@ -115,17 +115,23 @@ server = app.server
 
 
 app.layout = html.Div([
-            dcc.Graph(
+
+            html.Div([
+                dcc.Graph(
                         id='basic-interactions',
                         figure=fig,style={'display': 'inline-block',
-                                'width':'55%',
+                                'width':1000,'height':550,
+                                'marginTop': 50,
                                 }),
 
             html.Div(id="click-data",style={'display': 'inline-block',
-                                            'width':'40%',
+                                            'width':'55%',
                                             'text-align':'center',
-                                            }),
-
+                                            'marginTop': 50,
+                                            'marginLeft': 70
+                                            })
+            ],
+            style={"display":"flex"}),
 
 html.Div([
 
@@ -198,12 +204,19 @@ def display_click_data(clickData):
 
 
         fig = make_subplots(
-            rows=2, cols=2)
+            rows=2, cols=2,
+            #vertical_spacing=0.075,
 
-        fig.add_layout_image(
+            #horizontal_spacing=0.008,
+            row_width=[10,10]
 
         )
 
+        """
+        fig.add_layout_image(
+
+        )
+        """
 
         if len(img1) > 0:
             fig.add_trace(go.Image(z=img), 1, 1)
@@ -223,9 +236,10 @@ def display_click_data(clickData):
 
 
         fig.update_layout(coloraxis_showscale=False,
-                          title_text=value,title_x=0.5,
-                          #title_font_size = 1.1
-                          )
+                          title_text='categoria:{}'.format(value.upper()),title_x=0.5,
+                          autosize=False,
+                          width=600, height=600
+                         )
         fig.update_xaxes(showticklabels=False)
         fig.update_yaxes(showticklabels=False)
 
