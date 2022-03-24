@@ -115,6 +115,7 @@ server = app.server
 
 
 app.layout = html.Div([
+            html.H1("FRAMES OF URBAN TRANSFORMATION",style={'textAlign':'center'}),
 
             html.Div([
                 dcc.Graph(
